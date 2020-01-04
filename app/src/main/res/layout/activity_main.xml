@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lyt_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primaryColor"
+    tools:context=".MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="30dp"
+                    app:srcCompat="@drawable/ic_ambulance"
+                    android:tint="@android:color/white"/>
+
+
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal"-->
+                    <!--android:layout_margin="10dp">-->
+                    <!---->
+
+                    <!--<View-->
+                        <!--android:layout_width="10dp"-->
+                        <!--android:layout_height="0dp" />-->
+
+                    <!---->
+
+                    <!--<View-->
+                        <!--android:layout_width="10dp"-->
+                        <!--android:layout_height="0dp" />-->
+
+
+                <!--</LinearLayout>-->
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    style="@style/Widget.MaterialComponents.CardView"
+                    app:cardElevation="10dp"
+                    app:cardCornerRadius="5dp"
+                    android:layout_margin="15dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <LinearLayout
+                        android:id="@+id/driverLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_driver"
+                            android:tint="@color/secondaryColor"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/login_as_driver"
+                            android:textAppearance="@style/Custom.Body.Bold"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="15sp"
+                            android:layout_gravity="center"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    style="@style/Widget.MaterialComponents.CardView"
+                    android:layout_margin="15dp"
+                    app:cardElevation="10dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@android:color/white">
+
+                    <LinearLayout
+                        android:id="@+id/customerLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:padding="5dp"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="80dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_satisfaction"
+                            android:tint="@color/secondaryColor"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/login_as_customer"
+                            android:textAppearance="@style/Custom.Body.Bold"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="15sp"
+                            android:layout_gravity="center"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/powered_by"
+        android:textAppearance="@style/Custom.Body.Bold"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:layout_margin="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:textAlignment="center" />
+
+</RelativeLayout>
