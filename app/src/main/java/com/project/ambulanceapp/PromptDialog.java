@@ -10,6 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class PromptDialog {
 
     private Dialog dialog;
@@ -47,6 +53,20 @@ public class PromptDialog {
 
         Toast.makeText(ctx, msg, Toast.LENGTH_SHORT).show();
 
+    }
+
+    public static String convertToDate(String dateString){
+
+        DateFormat parser = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = null;
+        try {
+            date = (Date) parser.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm:ss", Locale.getDefault());
+
+        return formatter.format(date);
     }
 
     private SharedPreferences getPreferences(Context context) {
@@ -92,5 +112,26 @@ public class PromptDialog {
         SharedPreferences pref = ctx.getSharedPreferences("user_details", 0);
         return pref.getString("type", "0");
     }
+
+    public static String toCamelCase(String input) {
+        input = input.toLowerCase();
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
+//        return input;
+    }
+
 
 }

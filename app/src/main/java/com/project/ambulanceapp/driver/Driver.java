@@ -25,4 +25,59 @@ public class Driver {
         this.vehicle_number = vehicle_number;
     }
 
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public void setLname(String lname) {
+        this.lname = lname;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setVehicle_type(String vehicle_type) {
+        this.vehicle_type = vehicle_type;
+    }
+
+    public void setVehicle_number(String vehicle_number) {
+        this.vehicle_number = vehicle_number;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public String getLname() {
+        return lname;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getVehicle_type() {
+        return vehicle_type;
+    }
+
+    public String getVehicle_number() {
+        return vehicle_number;
+    }
 }

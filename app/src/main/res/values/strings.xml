@@ -65,5 +65,24 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="date_time"><![CDATA[Date & Time:]]></string>
+    <string name="date_sample">4th January, 2020</string>
+    <string name="from">From:</string>
+    <string name="sample_location">Adanseman, Bortianor</string>
+    <string name="to">To:</string>
+    <string name="destination">Korle-Bu Teaching Hospital</string>
+
+    <string name="apiKey">AIzaSyATmiXaWrDMMi8QoSEKSnoGu0Cbyk1U6y4</string>
+    <string name="next">Next</string>
+    <string name="ambulance_type">Ambulance Type:</string>
+    <string name="type_your_notes_here">type your notes here</string>
+    <string name="sample_time">09:30 AM</string>
+    <string name="select_driver">Select Driver:</string>
+    <string name="date_required">Please select date and time!</string>
+    <string name="select_driver_required">Please select a driver</string>
+    <string name="no_location">No location found!</string>
+    <string name="no_record">No record found.</string>
+    <string name="accepted">Accepted</string>
+    <string name="pending">Pending</string>
 
 </resources>

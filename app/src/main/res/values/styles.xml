@@ -13,6 +13,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CustomAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -22,7 +30,12 @@
         <item name="android:windowExitAnimation">@anim/scale_out</item>
     </style>
 
-    <style name="Custom.Body" parent="TextAppearance.AppCompat.Medium">
+    <!--<style name="Custom.Body" parent="TextAppearance.AppCompat.Medium">-->
+        <!--<item name="android:textSize">12sp</item>-->
+        <!--<item name="android:textColor">@color/grey_90</item>-->
+    <!--</style>-->
+
+    <style name="Custom.Body" parent="TextAppearance.MaterialComponents.Body1">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey_90</item>
     </style>
@@ -30,6 +43,34 @@
     <style name="Custom.Body.Bold" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey_90</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Custom.Headings" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/grey_90</item>
+    </style>
+
+    <style name="Custom.Headings.White" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="Custom.Headings.White.Bold" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Custom.Headings.Bold" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/grey_90</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Custom.Body.Bold.White" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
 

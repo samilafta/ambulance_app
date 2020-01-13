@@ -20,7 +20,6 @@ import com.project.ambulanceapp.R;
 
 public class CustomerHomeFragment extends Fragment {
 
-    private PromptDialog promptDialog;
     private static final String TAG_HOME = "home";
     private static final String TAG_BOOK = "book";
     private static final String TAG_BOOKINGS_LIST = "bookings_list";
@@ -49,7 +48,6 @@ public class CustomerHomeFragment extends Fragment {
 
     private void initComponents(View v) {
 
-        promptDialog = new PromptDialog(getActivity());
         LinearLayout book_appointment = (LinearLayout) v.findViewById(R.id.book_appointment);
         LinearLayout view_bookings = (LinearLayout) v.findViewById(R.id.view_appointment);
         LinearLayout emergency = (LinearLayout) v.findViewById(R.id.emergency);

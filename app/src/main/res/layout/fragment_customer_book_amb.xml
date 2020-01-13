@@ -1,24 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lyt_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".customer.CustomerBookAmbFragment">
 
-  <androidx.core.widget.NestedScrollView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-      <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <!--date time-->
+            <LinearLayout
+                android:id="@+id/dateTimeLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_40"
+                android:orientation="vertical"
+                android:padding="20dp">
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_time"
+                    android:textAppearance="@style/Custom.Headings.White.Bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
 
-      </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-  </androidx.core.widget.NestedScrollView>
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:tint="@android:color/white"
+                        app:srcCompat="@drawable/ic_timetable" />
+
+                    <View
+                        android:layout_width="15dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/tvdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/Custom.Headings.White.Bold"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/tvTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sample_time"
+                        android:textAppearance="@style/Custom.Headings.White.Bold"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--from current location-->
+            <LinearLayout
+                android:id="@+id/fromLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/from"
+                    android:textAppearance="@style/Custom.Headings.Bold"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center"
+                        android:tint="@color/grey_60"
+                        app:srcCompat="@drawable/ic_pin" />
+
+                    <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp" />
+
+                    <TextView
+                        android:id="@+id/currentLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sample_location"
+                        android:textAppearance="@style/Custom.Headings"
+                        android:textColor="@color/grey_60"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- to location -->
+            <LinearLayout
+                android:id="@+id/destinationLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_40"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/to"
+                    android:textAppearance="@style/Custom.Headings.White.Bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/destination"-->
+                    <!--android:textAppearance="@style/Custom.Headings.White.Bold"-->
+                    <!--android:textSize="18sp"-->
+                    <!--android:textColor="@android:color/white"/>-->
+
+                    <fragment
+                        android:id="@+id/autocomplete_fragment"
+                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--select ambulance type-->
+            <LinearLayout
+                android:id="@+id/ambType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ambulance_type"
+                    android:textAppearance="@style/Custom.Headings.Bold"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:ms_hint="@string/vehicle_type" />
+
+            </LinearLayout>
+
+            <!--select driver-->
+            <LinearLayout
+                android:id="@+id/driverLyt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_40"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_driver"
+                    android:textAppearance="@style/Custom.Headings.Bold"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp" />
+
+                <Spinner
+                    android:id="@+id/driverSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!--notes-->
+            <LinearLayout
+                android:id="@+id/notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/notesLyt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/type_your_notes_here"
+                    app:boxStrokeColor="@color/grey_40"
+                    android:padding="15dp"
+                    android:theme="@style/Custom.EditText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text|textMultiLine"
+                        android:hint="@string/type_your_notes_here"
+                        android:textColorHint="@color/grey_40"
+                        android:textAlignment="center"
+                        android:gravity="center"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/nextBtn"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:padding="15dp"
+                android:text="@string/next"
+                android:textAppearance="@style/Custom.Headings.White.Bold"
+                android:textSize="20sp"
+                app:backgroundTint="@color/secondaryDarkColor"
+                app:cornerRadius="0dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 </RelativeLayout>

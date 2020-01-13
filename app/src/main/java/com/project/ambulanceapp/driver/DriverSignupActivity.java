@@ -178,12 +178,12 @@ public class DriverSignupActivity extends AppCompatActivity {
         }
 
         if(lname.isEmpty()) {
-            Snackbar.make(lyt_parent, getText(R.string.lname_length), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(lyt_parent, getText(R.string.lname_required), Snackbar.LENGTH_LONG).show();
             return false;
         }
 
         if(lname.length() < 3) {
-            Snackbar.make(lyt_parent, getText(R.string.pwd_length), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(lyt_parent, getText(R.string.lname_length), Snackbar.LENGTH_LONG).show();
             return false;
         }
 
