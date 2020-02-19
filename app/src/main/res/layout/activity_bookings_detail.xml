@@ -26,14 +26,207 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/grey_40"
+                android:padding="15dp">
 
+                <ImageView
+                    android:layout_width="130dp"
+                    android:layout_height="100dp"
+                    android:tint="@android:color/white"
+                    app:srcCompat="@drawable/ic_ambulance" />
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="0dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/fname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/Custom.Headings.White.Bold"
+                        android:textColor="@android:color/white"
+                        android:text="Samuel"
+                        android:textSize="25sp" />
+
+                    <TextView
+                        android:id="@+id/lname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/Custom.Headings.White.Bold"
+                        android:textColor="@android:color/white"
+                        android:text="Owusu"
+                        android:textSize="25sp" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="10dp"/>
+
+                    <TextView
+                        android:id="@+id/ambType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/Custom.Headings.White"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/call"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:text="@string/call"
+                    android:textAppearance="@style/Custom.Headings.White"
+                    app:cornerRadius="5dp"
+                    app:backgroundTint="@color/green_20" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:text="@string/cancel_booking"
+                    android:textAppearance="@style/Custom.Headings.White"
+                    app:cornerRadius="5dp"
+                    app:backgroundTint="@color/secondaryDarkColor"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/feedback"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:text="@string/feedback"
+                    android:textAppearance="@style/Custom.Headings.White"
+                    app:cornerRadius="5dp"
+                    app:backgroundTint="@color/green_20" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/track"
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:text="@string/track"
+                    android:textAppearance="@style/Custom.Headings.White"
+                    app:cornerRadius="5dp"
+                    app:backgroundTint="@color/green_20"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings"
+                    android:text="@string/destination1"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/toDestination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings.Bold"
+                    android:textAllCaps="true"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings"
+                    android:text="@string/ambulance_no"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/ambNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings.Bold"
+                    android:text="@string/sample_amb_num"
+                    android:textAllCaps="true"
+                    android:textSize="25sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings"
+                    android:text="@string/details"
+                    android:textSize="18sp"/>
+
+                <TextView
+                    android:id="@+id/notes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Custom.Headings"
+                    android:text="Notes" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

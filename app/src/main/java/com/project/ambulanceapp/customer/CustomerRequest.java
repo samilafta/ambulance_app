@@ -12,12 +12,14 @@ public class CustomerRequest {
     public double driver_lon;
     public boolean request_status;
     public String request_notes;
+    public String to_destination;
 
     public CustomerRequest() {}
 
     public CustomerRequest(String request_date, String request_uid, String user_uid,
                            double user_lat, double user_lon, String driver_uid,
-                           double driver_lat, double driver_lon, boolean request_status, String request_notes) {
+                           double driver_lat, double driver_lon, boolean request_status, String request_notes,
+                           String to_destination) {
         this.request_date = request_date;
         this.request_uid = request_uid;
         this.user_uid = user_uid;
@@ -28,6 +30,7 @@ public class CustomerRequest {
         this.driver_lon = driver_lon;
         this.request_status = request_status;
         this.request_notes = request_notes;
+        this.to_destination = to_destination;
     }
 
     public String getRequest_date() {
@@ -68,5 +71,9 @@ public class CustomerRequest {
 
     public String getRequest_notes() {
         return request_notes;
+    }
+
+    public String getTo_destination() {
+        return to_destination;
     }
 }

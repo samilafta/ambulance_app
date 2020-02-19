@@ -153,19 +153,28 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/destination"-->
-                    <!--android:textAppearance="@style/Custom.Headings.White.Bold"-->
-                    <!--android:textSize="18sp"-->
-                    <!--android:textColor="@android:color/white"/>-->
-
-                    <fragment
-                        android:id="@+id/autocomplete_fragment"
-                        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/toLyt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        app:boxStrokeColor="@android:color/white"
+                        android:padding="15dp"
+                        android:theme="@style/Custom.EditText">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:textColor="@android:color/white"
+                            android:gravity="center"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--<fragment-->
+                        <!--android:id="@+id/autocomplete_fragment"-->
+                        <!--android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content" />-->
 
                 </LinearLayout>
 

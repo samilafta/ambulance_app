@@ -90,7 +90,6 @@ public class CustomerBookingsFragment extends Fragment {
     private void loadData() {
 
         promptDialog.startLoading();
-        requestsList = new ArrayList<>();
         String user_uid = firebaseAuth.getCurrentUser().getUid();
         final DatabaseReference driversRef = databaseReference.child("requests");
         final Query data = driversRef.orderByChild("user_uid").equalTo(user_uid);
@@ -99,10 +98,11 @@ public class CustomerBookingsFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-
                 promptDialog.stopLoading();
 
                 if(dataSnapshot.getValue() != null) {
+
+                    requestsList = new ArrayList<>();
 
                     for (DataSnapshot requestSnapshot : dataSnapshot.getChildren()) {
                         CustomerRequest customerRequest = requestSnapshot.getValue(CustomerRequest.class);

@@ -79,7 +79,7 @@ public class CustomerBookAmbFragment extends Fragment {
     private String selDriverId = "";
     private PromptDialog promptDialog;
     private String selected_dateTime = "";
-    private TextInputLayout notesLyt;
+    private TextInputLayout notesLyt, toLyt;
     private RelativeLayout lyt_parent;
     private ConnectionDetector connectionDetector;
     private FirebaseAuth firebaseAuth;
@@ -122,6 +122,7 @@ public class CustomerBookAmbFragment extends Fragment {
         tvTime.setVisibility(View.GONE);
         tvLocation = v.findViewById(R.id.currentLocation);
         notesLyt = v.findViewById(R.id.notesLyt);
+        toLyt = v.findViewById(R.id.toLyt);
         MaterialButton nextBtn = v.findViewById(R.id.nextBtn);
         lyt_parent = v.findViewById(R.id.lyt_parent);
         MaterialSpinner spinner = v.findViewById(R.id.spinner);
@@ -131,27 +132,27 @@ public class CustomerBookAmbFragment extends Fragment {
         Places.initialize(getContext(), getString(R.string.apiKey));
         PlacesClient placesClient = Places.createClient(getContext());
 
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
-        autocompleteFragment.setCountry("GH");
-        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
-
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "########################################");
-                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: " + status);
-            }
-        });
+//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+//                getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//
+//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+//        autocompleteFragment.setCountry("GH");
+//        autocompleteFragment.setTypeFilter(TypeFilter.ADDRESS);
+//
+//        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+//            @Override
+//            public void onPlaceSelected(Place place) {
+//                // TODO: Get info about the selected place.
+//                Log.i(TAG, "########################################");
+//                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+//            }
+//
+//            @Override
+//            public void onError(Status status) {
+//                // TODO: Handle the error.
+//                Log.i(TAG, "An error occurred: " + status);
+//            }
+//        });
 
         if (gpsTracker.canGetLocation()) {
 
@@ -196,13 +197,14 @@ public class CustomerBookAmbFragment extends Fragment {
 
                 String date_selected = tvDate.getText().toString();
                 String notes = notesLyt.getEditText().getText().toString();
+                String toDestination = toLyt.getEditText().getText().toString();
 
 
-                if(validate_data(date_selected, notes, vehicleType, selDriverId, mLatitude, mLongitude)) {
+                if(validate_data(date_selected, notes, vehicleType, selDriverId, mLatitude, mLongitude, toDestination)) {
 
                     if(connectionDetector.isNetworkAvailable()) {
 
-                        sendRequest(date_selected, mLatitude, mLongitude, vehicleType, selDriverId, notes);
+                        sendRequest(date_selected, mLatitude, mLongitude, vehicleType, selDriverId, notes, toDestination);
 
                     } else {
                         Snackbar.make(lyt_parent, getString(R.string.no_internet), Snackbar.LENGTH_LONG);
@@ -216,9 +218,9 @@ public class CustomerBookAmbFragment extends Fragment {
     }
 
     private boolean validate_data(String date_selected, String notes, String vehicleType, String selDriverId,
-                                  double mLatitude, double mLongitude) {
+                                  double mLatitude, double mLongitude, String toDestination) {
 
-        if(date_selected.isEmpty() && vehicleType.isEmpty() && selDriverId.isEmpty()) {
+        if(date_selected.isEmpty() && vehicleType.isEmpty() && selDriverId.isEmpty() && toDestination.isEmpty()) {
 
             Snackbar.make(lyt_parent, getString(R.string.fields_required), Snackbar.LENGTH_LONG).show();
             return false;
@@ -236,6 +238,11 @@ public class CustomerBookAmbFragment extends Fragment {
 
         if(selDriverId.isEmpty()) {
             Snackbar.make(lyt_parent, getString(R.string.select_driver_required), Snackbar.LENGTH_LONG).show();
+            return false;
+        }
+
+        if(toDestination.isEmpty()) {
+            Snackbar.make(lyt_parent, getString(R.string.enter_destination), Snackbar.LENGTH_LONG).show();
             return false;
         }
 
@@ -349,7 +356,7 @@ public class CustomerBookAmbFragment extends Fragment {
     }
 
     private void sendRequest(String date_selected, double mLatitude, double mLongitude,
-                             String vehicleType, String selDriverId, String notes) {
+                             String vehicleType, String selDriverId, String notes, String toDestination) {
         promptDialog.startLoading();
         String user_uid = firebaseAuth.getCurrentUser().getUid();
 
@@ -357,7 +364,7 @@ public class CustomerBookAmbFragment extends Fragment {
         String requestId = requestsRef.getKey();
 
         CustomerRequest customerRequest = new CustomerRequest(date_selected, requestId, user_uid,
-                mLatitude, mLongitude, selDriverId, 0, 0, false, notes);
+                mLatitude, mLongitude, selDriverId, 0, 0, false, notes, toDestination);
 
         requestsRef.setValue(customerRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -399,7 +406,6 @@ public class CustomerBookAmbFragment extends Fragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.AlertScale;
         dialog.show();
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
