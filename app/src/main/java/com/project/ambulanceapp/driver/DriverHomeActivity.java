@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -21,14 +22,22 @@ import com.project.ambulanceapp.ConnectionDetector;
 import com.project.ambulanceapp.MainActivity;
 import com.project.ambulanceapp.PromptDialog;
 import com.project.ambulanceapp.R;
+import com.project.ambulanceapp.customer.CustomerBookAmbFragment;
+import com.project.ambulanceapp.customer.CustomerBookingsFragment;
+import com.project.ambulanceapp.customer.CustomerContactsFragment;
+import com.project.ambulanceapp.customer.CustomerEmergencyFragment;
+import com.project.ambulanceapp.customer.CustomerHomeFragment;
 import com.project.ambulanceapp.customer.HomeActivity;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class DriverHomeActivity extends AppCompatActivity
@@ -39,6 +48,17 @@ public class DriverHomeActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener authStateListener;
     private FirebaseAuth firebaseAuth;
 
+    private static final String TAG_HOME = "home";
+    private static final String TAG_BOOKINGS_LIST = "bookings_list";
+    private static final String TAG_EMERGENCY = "emergency";
+    public static String CURRENT_TAG = TAG_HOME;
+    public static int navItemIndex = 0;
+    private Handler mHandler;
+
+    private String[] activityTitles;
+    private boolean shouldLoadHomeFragOnBackPress = true;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +66,22 @@ public class DriverHomeActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         initComponents(toolbar);
+
+        if(getIntent() != null && getIntent().hasExtra("src") && getIntent().hasExtra("navItem")) {
+            CURRENT_TAG = getIntent().getStringExtra("src");
+            navItemIndex = getIntent().getIntExtra("navItem", 0);
+        }
+
+        if (savedInstanceState == null) {
+            loadHomeFragment();
+        }
 
     }
 
     private void initComponents(Toolbar toolbar) {
 
+        mHandler = new Handler();
         promptDialog = new PromptDialog(this);
         connectionDetector = new ConnectionDetector(this);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -66,21 +95,11 @@ public class DriverHomeActivity extends AppCompatActivity
                             = new Intent(DriverHomeActivity.this,
                             MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
         };
 
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -88,6 +107,15 @@ public class DriverHomeActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView full_name = headerView.findViewById(R.id.full_name);
+        full_name.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        TextView email = headerView.findViewById(R.id.email);
+        email.setText(firebaseAuth.getCurrentUser().getEmail());
+
+        activityTitles = getResources().getStringArray(R.array.nav_item_driver_titles);
+
     }
 
     @Override
@@ -95,9 +123,21 @@ public class DriverHomeActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            return;
         }
+
+        if (shouldLoadHomeFragOnBackPress) {
+            // checking if user is on other navigation menu
+            // rather than home
+            if (navItemIndex != 0) {
+                navItemIndex = 0;
+                CURRENT_TAG = TAG_HOME;
+                loadHomeFragment();
+                return;
+            }
+        }
+
+        finish();
     }
 
     @Override
@@ -109,7 +149,6 @@ public class DriverHomeActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
@@ -120,10 +159,9 @@ public class DriverHomeActivity extends AppCompatActivity
                     firebaseAuth.signOut();
                     promptDialog.deleteUserLoginDetails(getApplicationContext());
                     promptDialog.stopLoading();
-                    promptDialog.showToast(this, "Driver Sign out!");
+                    Toast.makeText(this, "Driver Sign out!", Toast.LENGTH_SHORT).show();
                 }catch (Exception e) {
                     promptDialog.stopLoading();
-                    promptDialog.showAlert(this, getString(R.string.error_occurred));
                 }
 
             } else {
@@ -131,6 +169,7 @@ public class DriverHomeActivity extends AppCompatActivity
             }
 
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -141,21 +180,21 @@ public class DriverHomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_HOME;
+        } else if (id == R.id.nav_bookings) {
+            navItemIndex = 1;
+            CURRENT_TAG = TAG_BOOKINGS_LIST;
+        }
+        else {
+            navItemIndex = 0;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        loadHomeFragment();
+
         return true;
     }
 
@@ -178,4 +217,55 @@ public class DriverHomeActivity extends AppCompatActivity
             firebaseAuth.removeAuthStateListener(authStateListener);
         }
     }
+
+    private Fragment getHomeFragment() {
+        switch (navItemIndex) {
+            case 0:
+                return new DriverHomeFragment();
+            case 1:
+                return new DriverBookingsFragment();
+            default:
+                return new DriverHomeFragment();
+        }
+    }
+
+    private void loadHomeFragment() {
+
+        // set toolbar title
+        setToolbarTitle();
+
+        // if user select the current navigation menu again, don't do anything
+        // just close the navigation drawer
+        if (getSupportFragmentManager().findFragmentByTag(CURRENT_TAG) != null) {
+//            drawer.closeDrawers();
+            return;
+        }
+
+        Runnable mPendingRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // update the main content by replacing fragments
+                Fragment fragment = getHomeFragment();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
+                fragmentTransaction.replace(R.id.frameContainer, fragment, CURRENT_TAG);
+                fragmentTransaction.commitAllowingStateLoss();
+            }
+        };
+
+        // If mPendingRunnable is not null, then add to the message queue
+        if (mPendingRunnable != null) {
+            mHandler.post(mPendingRunnable);
+        }
+
+        //Closing drawer on item click
+//        drawer.closeDrawers();
+
+    }
+
+    private void setToolbarTitle() {
+        setTitle(activityTitles[navItemIndex]);
+    }
+
 }

@@ -46,8 +46,7 @@
             android:label="@string/title_activity_maps"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".customer.BookingsDetailActivity"
-            android:theme="@style/CustomAppTheme"/>
+            android:name=".customer.BookingsDetailActivity" />
         <activity
             android:name=".driver.DriverHomeActivity"
             android:label="@string/title_activity_driver_home"
@@ -67,6 +66,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".driver.DriverBookingsDetailActivity" />
 
         <service android:name=".GPSTracker" />
     </application>

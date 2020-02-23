@@ -61,6 +61,13 @@
             android:textAppearance="@style/Custom.Headings.Bold"
             />
 
+        <TextView
+            android:id="@+id/toDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Custom.Headings.Bold"
+            />
+
         <View
             android:layout_width="0dp"
             android:layout_height="5dp"/>

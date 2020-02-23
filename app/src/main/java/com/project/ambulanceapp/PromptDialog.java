@@ -3,7 +3,9 @@ package com.project.ambulanceapp;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.view.Window;
 import android.widget.Toast;
@@ -133,5 +135,12 @@ public class PromptDialog {
 //        return input;
     }
 
+    public void makeCall(Context ctx, String phone_num) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phone_num));
+        if (intent.resolveActivity(ctx.getPackageManager()) != null) {
+            ctx.startActivity(intent);
+        }
+    }
 
 }

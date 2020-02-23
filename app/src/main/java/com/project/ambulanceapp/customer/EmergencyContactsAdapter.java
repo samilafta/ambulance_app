@@ -27,7 +27,7 @@ public class EmergencyContactsAdapter extends RecyclerView.Adapter<RecyclerView.
     private OriginalViewHolder view;
 
     private Context ctx;
-    private OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener mOnItemClickListener, onDelete;
 
     public interface OnItemClickListener {
         void onItemClick(View view, Emergency obj, int position);
@@ -35,6 +35,9 @@ public class EmergencyContactsAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mOnItemClickListener = mItemClickListener;
+    }
+    public void setOnItemDeleteListener(final OnItemClickListener mItemClickListener) {
+        this.onDelete = mItemClickListener;
     }
 
     public EmergencyContactsAdapter(Context context, List<Emergency> items) {
@@ -75,11 +78,20 @@ public class EmergencyContactsAdapter extends RecyclerView.Adapter<RecyclerView.
         view.fullName.setText(s.getFname());
         view.phoneNum.setText(s.getPhone());
 
-        view.lyt_parent.setOnClickListener(new View.OnClickListener() {
+        view.callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     mOnItemClickListener.onItemClick(v, items.get(position), position);
+                }
+            }
+        });
+
+        view.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onDelete != null) {
+                    onDelete.onItemClick(v, items.get(position), position);
                 }
             }
         });

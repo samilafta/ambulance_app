@@ -46,7 +46,7 @@ public class CustomerBookingsAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public class OriginalViewHolder extends RecyclerView.ViewHolder {
-        public TextView date, driverName, ambNum, ambType;
+        public TextView date, driverName, ambNum, ambType, destination;
         private MaterialButton pendingStatus, successStatus;
         public LinearLayout lyt_parent;
 
@@ -58,6 +58,7 @@ public class CustomerBookingsAdapter extends RecyclerView.Adapter<RecyclerView.V
             successStatus = v.findViewById(R.id.successStatus);
             ambNum = v.findViewById(R.id.ambNum);
             ambType = v.findViewById(R.id.ambType);
+            destination = v.findViewById(R.id.toDestination);
             lyt_parent = v.findViewById(R.id.lyt_parent);
         }
     }
@@ -97,6 +98,8 @@ public class CustomerBookingsAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
 
         view.date.setText(s.getRequest_date());
+        String dest = "Destination: " + s.getTo_destination();
+        view.destination.setText(dest);
 
         if(s.isRequest_status()) {
             view.successStatus.setVisibility(View.VISIBLE);

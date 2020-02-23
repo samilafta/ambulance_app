@@ -364,7 +364,8 @@ public class CustomerBookAmbFragment extends Fragment {
         String requestId = requestsRef.getKey();
 
         CustomerRequest customerRequest = new CustomerRequest(date_selected, requestId, user_uid,
-                mLatitude, mLongitude, selDriverId, 0, 0, false, notes, toDestination);
+                mLatitude, mLongitude, selDriverId, 0, 0,
+                false, notes, toDestination, false);
 
         requestsRef.setValue(customerRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

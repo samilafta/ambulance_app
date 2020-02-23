@@ -1,9 +1,14 @@
 package com.project.ambulanceapp.customer;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -11,7 +16,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,23 +61,24 @@ public class BookingsDetailActivity extends AppCompatActivity {
 
     private void initToolbar(String request_date){
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(request_date);
-        toolbar.setTitleTextColor(Color.WHITE);
-        toolbar.setNavigationIcon(R.drawable.ic_back);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        toolbar.setTitle(request_date);
+//        toolbar.setTitleTextColor(Color.WHITE);
+//        toolbar.setNavigationIcon(R.drawable.ic_back);
 
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(request_date);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                onBackPressed();
-                finish();
-
-            }
-        });
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                onBackPressed();
+//                finish();
+//
+//            }
+//        });
 
     }
 
@@ -93,12 +102,32 @@ public class BookingsDetailActivity extends AppCompatActivity {
 
         databaseReference.child("requests").child(request_uid).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                 if(dataSnapshot.exists()) {
-                    notes.setText(PromptDialog.toCamelCase(String.valueOf(dataSnapshot.child("request_notes").getValue())));
-                    toDestination.setText(PromptDialog.toCamelCase(String.valueOf(dataSnapshot.child("to_destination").getValue())));
-                    getDriverDetails(String.valueOf(dataSnapshot.child("driver_uid").getValue()));
+                    CustomerRequest request = dataSnapshot.getValue(CustomerRequest.class);
+                    notes.setText(request.getRequest_notes());
+                    toDestination.setText(request.getTo_destination());
+                    getDriverDetails(request.getDriver_uid());
+
+                    if(request.isCancel_status()) {
+                        cancel.setEnabled(false);
+                        cancel.setText(getString(R.string.cancelled));
+                        cancel.setBackgroundTintList(ContextCompat.getColorStateList(BookingsDetailActivity.this, R.color.grey_40));
+                    } else {
+                        cancel.setEnabled(true);
+                        cancel.setText(getString(R.string.cancel_booking));
+                        cancel.setBackgroundTintList(ContextCompat.getColorStateList(BookingsDetailActivity.this, R.color.secondaryDarkColor));
+
+                    }
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            cancelBookingRequest(dataSnapshot);
+                        }
+                    });
+
                 }
 
             }
@@ -106,6 +135,7 @@ public class BookingsDetailActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.i("error", databaseError.getMessage());
+                promptDialog.showToast(getApplicationContext(), getString(R.string.error_occurred));
             }
         });
 
@@ -117,8 +147,6 @@ public class BookingsDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
 
     }
 
@@ -138,7 +166,7 @@ public class BookingsDetailActivity extends AppCompatActivity {
                     call.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            makeCall(String.valueOf(dataSnapshot.child("phone").getValue()));
+                            promptDialog.makeCall(getApplicationContext(), String.valueOf(dataSnapshot.child("phone").getValue()));
                         }
                     });
                 }
@@ -149,16 +177,42 @@ public class BookingsDetailActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
-    private void makeCall(String phone_num) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phone_num));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        }
+    private void cancelBookingRequest(DataSnapshot dataSnapshot) {
+        promptDialog.startLoading();
+        DatabaseReference cancelBookingRef = dataSnapshot.getRef().child("cancel_status");
+        cancelBookingRef.setValue(true).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    promptDialog.stopLoading();
+                    promptDialog.showToast(getApplicationContext(), getString(R.string.booking_success));
+//                    showAlert();
+
+                } else {
+                    promptDialog.stopLoading();
+                    promptDialog.showToast(getApplicationContext(), getString(R.string.error_occurred));
+                }
+            }
+        });
+    }
+
+    private void showAlert() {
+        AlertDialog dialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle(R.string.app_name);
+        builder.setCancelable(false);
+        builder.setMessage(getString(R.string.booking_success));
+        builder.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
+//        dialog.getWindow().getAttributes().windowAnimations = R.style.AlertScale;
+        dialog.show();
     }
 
 }

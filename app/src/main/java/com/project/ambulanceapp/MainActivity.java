@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.ambulanceapp.customer.CustomerLoginActivity;
 import com.project.ambulanceapp.customer.HomeActivity;
+import com.project.ambulanceapp.driver.DriverHomeActivity;
 import com.project.ambulanceapp.driver.DriverLoginActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         Intent intent
                                 = new Intent(MainActivity.this,
-                                HomeActivity.class);
+                                DriverHomeActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }

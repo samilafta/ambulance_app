@@ -1,6 +1,5 @@
 package com.project.ambulanceapp.customer;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -26,9 +25,7 @@ import com.project.ambulanceapp.ConnectionDetector;
 import com.project.ambulanceapp.PromptDialog;
 import com.project.ambulanceapp.R;
 import com.project.ambulanceapp.SpacingItemDecoration;
-import com.project.ambulanceapp.driver.Driver;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 

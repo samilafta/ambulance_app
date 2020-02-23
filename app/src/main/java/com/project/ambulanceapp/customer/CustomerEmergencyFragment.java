@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.project.ambulanceapp.ConnectionDetector;
 import com.project.ambulanceapp.PromptDialog;
@@ -39,6 +40,8 @@ import com.project.ambulanceapp.SpacingItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class CustomerEmergencyFragment extends Fragment {
 
@@ -196,16 +199,17 @@ public class CustomerEmergencyFragment extends Fragment {
         Emergency emergency = new Emergency(name, pNumber);
         String uid = firebaseAuth.getCurrentUser().getUid();
 
-        databaseReference.child("users").child("customers").child(uid)
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
+        dbReference.child("users").child("customers").child(uid)
                 .child("emergency").push().setValue(emergency).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
 
-
                     promptDialog.stopLoading();
                     dialog.dismiss();
                     promptDialog.showAlert(getContext(), "Emergency Contact added!");
+//                    loadContacts();
 
                 } else {
                     promptDialog.stopLoading();
@@ -220,7 +224,7 @@ public class CustomerEmergencyFragment extends Fragment {
 
         promptDialog.startLoading();
 
-        String uid = firebaseAuth.getCurrentUser().getUid();
+        final String uid = firebaseAuth.getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         databaseReference.child("users").child("customers").child(uid).child("emergency").addValueEventListener(new ValueEventListener() {
             @Override
@@ -238,6 +242,40 @@ public class CustomerEmergencyFragment extends Fragment {
                     emergencyContactsAdapter = new EmergencyContactsAdapter(getContext(), contactsList);
                     recyclerView.setAdapter(emergencyContactsAdapter);
                     promptDialog.stopLoading();
+
+                    emergencyContactsAdapter.setOnItemClickListener(new EmergencyContactsAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, Emergency obj, int position) {
+                            promptDialog.makeCall(getContext(), obj.getPhone());
+                        }
+                    });
+
+                    emergencyContactsAdapter.setOnItemDeleteListener(new EmergencyContactsAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, Emergency obj, int position) {
+                            promptDialog.startLoading();
+                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                            Query contactQuery = ref.child("users").child("customers").child(uid).child("emergency")
+                                    .orderByChild("phone").equalTo(obj.getPhone());
+
+                            contactQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot cSnapshot: dataSnapshot.getChildren()) {
+                                        cSnapshot.getRef().removeValue();
+                                        promptDialog.stopLoading();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    Log.e(TAG, "onCancelled", databaseError.toException());
+                                    promptDialog.stopLoading();
+                                    promptDialog.showToast(getContext(), getString(R.string.error_occurred));
+                                }
+                            });
+                        }
+                    });
 
                 }
                 else {
